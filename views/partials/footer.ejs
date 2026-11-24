@@ -1,0 +1,57 @@
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <p class="footer-brand">USIU-Africa Lost &amp; Found</p>
+      <p class="footer-text">Report it. Search it. Get it back.</p>
+    </div>
+    <div>
+      <p class="footer-heading">Quick links</p>
+      <ul class="footer-links">
+        <li><a href="/items">Browse items</a></li>
+        <li><a href="/report/lost">Report a lost item</a></li>
+        <li><a href="/report/found">Report a found item</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="footer-heading">Your privacy</p>
+      <p class="footer-text">Phone numbers and emails are never shown on this site. The administrator verifies every claim and arranges the handover.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="container">&copy; <%= new Date().getFullYear() %> USIU-Africa Lost &amp; Found</div>
+  </div>
+</footer>
+
+<script>
+// Open and close the menu on small screens
+const menuButton = document.querySelector('.nav-toggle');
+const menu = document.getElementById('site-nav');
+
+if (menuButton && menu) {
+  menuButton.addEventListener('click', function () {
+    menu.classList.toggle('open');
+  });
+}
+
+// Hide the green success message after 6 seconds
+const banners = document.querySelectorAll('.alert-success');
+for (let i = 0; i < banners.length; i++) {
+  setTimeout(function () {
+    banners[i].style.display = 'none';
+  }, 6000);
+}
+
+// For forms with data-confirm="..." ask the user before sending (used for Remove / Reject)
+const confirmForms = document.querySelectorAll('form[data-confirm]');
+for (let i = 0; i < confirmForms.length; i++) {
+  confirmForms[i].addEventListener('submit', function (event) {
+    if (!confirm(confirmForms[i].getAttribute('data-confirm'))) {
+      event.preventDefault();
+    }
+  });
+}
+</script>
+</body>
+</html>
