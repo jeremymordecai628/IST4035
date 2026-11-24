@@ -1,0 +1,64 @@
+<%- include('partials/header') %>
+
+<div class="container">
+  <p class="breadcrumb"><a href="/items">&larr; Back to all items</a></p>
+
+  <% if (!item) { %>
+    <div class="empty-state">
+      <h1>Item not found</h1>
+      <p>This report does not exist or is no longer available.</p>
+      <a class="btn btn-primary" href="/items">Browse items</a>
+    </div>
+  <% } else { %>
+    <% if (success) { %>
+      <div class="alert alert-success" role="status"><%= success %></div>
+    <% } %>
+
+    <article class="detail">
+      <div class="detail-media item-media-<%= item.type %>">
+        <% if (item.imagePath) { %>
+          <img src="<%= item.imagePath %>" alt="Photo of <%= item.itemName %>">
+        <% } else { %>
+          <svg class="placeholder-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6"></circle><path d="M15 15l5.5 5.5"></path></svg>
+          <span class="placeholder-text">No photo provided</span>
+        <% } %>
+      </div>
+
+      <div class="detail-main">
+        <div class="badge-row">
+          <span class="badge badge-<%= item.type %>"><%= item.typeLabel %></span>
+          <span class="badge <%= item.statusClass %>"><%= item.status %></span>
+        </div>
+        <h1><%= item.itemName %></h1>
+
+        <dl class="detail-list">
+          <div><dt>Category</dt><dd><%= item.category %></dd></div>
+          <div><dt><%= item.placeLabel %></dt><dd><%= item.location %></dd></div>
+          <% if (item.displayDate) { %><div><dt><%= item.dateLabel %></dt><dd><%= item.displayDate %></dd></div><% } %>
+          <% if (item.reportedOn) { %><div><dt>Reported on</dt><dd><%= item.reportedOn %></dd></div><% } %>
+          <div><dt>Reported by</dt><dd><%= item.reporterFirstName %></dd></div>
+        </dl>
+
+        <h2 class="detail-sub">Description</h2>
+        <p class="detail-desc"><%= item.description || 'No description provided.' %></p>
+
+        <div class="detail-actions">
+          <% if (canClaim) { %>
+            <a class="btn btn-gold" href="/items/<%= encodeURIComponent(item.id) %>/claim">This is mine, claim it</a>
+          <% } else if (item.status === 'Returned') { %>
+            <div class="alert alert-info">This item has been returned to its owner.</div>
+          <% } else if (item.status === 'Ready for Pickup') { %>
+            <div class="alert alert-info">This item has an approved claim and is ready for pickup.</div>
+          <% } else if (item.type === 'lost') { %>
+            <div class="alert alert-info">Found this item? <a href="/report/found">Report it as found</a> and the administrator will contact the owner.</div>
+          <% } %>
+          <a class="btn btn-light" href="/items">Back to results</a>
+        </div>
+
+        <p class="privacy-note">For safety, contact details are never shown. The administrator verifies claims and arranges handover.</p>
+      </div>
+    </article>
+  <% } %>
+</div>
+
+<%- include('partials/footer') %>
