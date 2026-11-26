@@ -1,0 +1,12 @@
+[
+  {
+    "id": "1",
+    "reportType": "found",
+    "itemName": "Black Backpack",
+    "category": "Bags",
+    "description": "Black backpack found near the library.",
+    "location": "Library",
+    "status": "Open",
+    "eventDate": "2026-11-20"
+  }
+]

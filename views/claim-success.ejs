@@ -1,0 +1,36 @@
+
+<%- include('partials/header') %>
+
+<div class="container">
+    <div class="form-card" style="text-align: center; margin: 60px auto;">
+        <h1 style="color: #1E3A8A;">Claim Submitted!</h1>
+
+        <p style="font-size: 18px;">
+            Thank you for submitting your claim.
+        </p>
+
+        <p>
+            Your claim for <strong><%= itemName %></strong>
+            has been received successfully.
+        </p>
+
+        <div class="alert alert-info">
+            <strong>Status: Pending Review</strong>
+            <p>
+                The administrator will review your proof of ownership
+                before making a decision.
+            </p>
+        </div>
+
+        <a href="/items" class="btn btn-gold">
+            Browse Other Items
+        </a>
+
+        <a href="/" class="btn btn-light">
+            Return Home
+        </a>
+
+    </div>
+</div>
+
+<%- include('partials/footer') %>

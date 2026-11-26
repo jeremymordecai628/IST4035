@@ -1,0 +1,102 @@
+
+<%- include('partials/header') %>
+
+<div class="container">
+  <p class="breadcrumb">
+    <a href="/items">&larr; Back to items</a>
+  </p>
+
+  <div class="page-heading">
+    <p class="hero-eyebrow">USIU-Africa Lost & Found</p>
+    <h1>Claim This Item</h1>
+    <p>
+      Think this item belongs to you?
+      Complete the form below so the administrator
+      can verify your ownership.
+    </p>
+  </div>
+
+  <% if (error) { %>
+    <div class="alert alert-error" role="alert">
+      <%= error %>
+    </div>
+  <% } %>
+
+  <div class="form-card">
+
+    <div class="alert alert-info">
+      <strong>Item:</strong> <%= item.itemName %>
+      <br>
+      <strong>Category:</strong> <%= item.category %>
+      <br>
+      <strong>Location:</strong> <%= item.location %>
+    </div>
+
+    <form action="/items/<%= encodeURIComponent(item.id) %>/claim"
+          method="POST">
+
+      <div class="field">
+        <label for="name">Full Name</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          placeholder="Enter your full name"
+          required
+          maxlength="100">
+      </div>
+
+      <div class="field">
+        <label for="email">University Email Address</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Enter your email address"
+          required
+          maxlength="150">
+      </div>
+
+      <div class="field">
+        <label for="phone">Phone Number</label>
+        <input
+          type="tel"
+          id="phone"
+          name="phone"
+          placeholder="Enter your phone number"
+          required
+          maxlength="20">
+      </div>
+
+      <div class="field">
+        <label for="proof">Proof of Ownership</label>
+        <textarea
+          id="proof"
+          name="proof"
+          placeholder="Describe unique features of the item, its contents, or other details that can help verify ownership."
+          required
+          maxlength="1000"></textarea>
+
+        <small class="form-hint">
+          Do not include passwords or other sensitive information.
+        </small>
+      </div>
+
+      <input type="hidden" name="itemId" value="<%= item.id %>">
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-gold">
+          Submit Claim
+        </button>
+
+        <a href="/items/<%= encodeURIComponent(item.id) %>"
+           class="btn btn-light">
+          Cancel
+        </a>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<%- include('partials/footer') %>
