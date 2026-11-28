@@ -1,62 +1,55 @@
-
-/*
- * server.js
- * Main entry point for the Lost and Found application.
- */
-
 require('dotenv').config();
 
 const express = require('express');
 const path = require('path');
+const session = require('express-session');
 
 const app = express();
-
-// Server configuration
 const PORT = process.env.PORT || 3000;
 
-// Configure EJS as the template engine
+// EJS configuration
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Middleware configuration
+// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Home route
-app.get('/', (req, res) => {
-    res.send(`
-        <h1>Lost and Found Management System</h1>
-        <p>Express server is running successfully.</p>
-    `);
-});
+// Session configuration
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        httpOnly: true,
+        sameSite: 'strict'
+    }
+}));
 
-// Health check route
+// Application routes
+const itemRoutes = require('./routes/itemRoutes');
+const claimRoutes = require('./routes/claimRoutes');
+const adminRoutes = require('./routes/adminRoutes');
+
+app.use('/', itemRoutes);
+app.use('/items', claimRoutes);
+app.use('/admin', adminRoutes);
+
+// Health check
 app.get('/health', (req, res) => {
     res.status(200).json({
         status: 'success',
-        message: 'Server is operational',
-        timestamp: new Date().toISOString()
+        message: 'Server is operational'
     });
 });
 
-// Handle undefined routes
+// 404 handler
 app.use((req, res) => {
     res.status(404).send('404 - Page not found');
 });
 
 // Start server
 app.listen(PORT, () => {
-    console.log(`
-    =====================================
-       LOST AND FOUND MANAGEMENT SYSTEM
-    =====================================
-       Server: http://localhost:${PORT}
-       Environment: ${process.env.NODE_ENV || 'development'}
-       Status: Running
-    =====================================
-    `);
+    console.log(`Server running at http://localhost:${PORT}`);
 });
-

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | USIU-Africa Lost & Found</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <main class="container">
+        <h1>Admin Dashboard</h1>
+        <p>USIU-Africa Lost & Found Management System</p>
+
+        <form action="/admin/logout" method="POST">
+            <button type="submit">Log Out</button>
+        </form>
+
+        <h2>Submitted Claims</h2>
+
+        <% if (claims.length === 0) { %>
+            <p>No claims have been submitted yet.</p>
+        <% } else { %>
+            <% claims.forEach(claim => { %>
+                <section class="claim-card">
+                    <h3><%= claim.itemName %></h3>
+                    <p><strong>Claimant:</strong> <%= claim.name %></p>
+                    <p><strong>Email:</strong> <%= claim.email %></p>
+                    <p><strong>Phone:</strong> <%= claim.phone %></p>
+                    <p><strong>Proof:</strong> <%= claim.proof %></p>
+                    <p><strong>Status:</strong> <%= claim.status %></p>
+
+                    <% if (claim.status === 'Pending') { %>
+                        <form action="/admin/claims/<%= claim.id %>/approve" method="POST">
+                            <button type="submit">Approve</button>
+                        </form>
+
+                        <form action="/admin/claims/<%= claim.id %>/reject" method="POST">
+                            <button type="submit">Reject</button>
+                        </form>
+                    <% } %>
+                </section>
+            <% }) %>
+        <% } %>
+    </main>
+</body>
+</html>
